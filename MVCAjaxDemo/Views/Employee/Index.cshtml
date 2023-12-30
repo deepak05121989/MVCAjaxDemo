@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="container">
+    <h2>Employee Record</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">Add New Employee</button><br /><br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    EmployeeName
+                </th>
+                <th>
+                    EmployeeEmail
+                </th>
+                <th>
+                    EmployeeSalary
+                </th>
+                <th>
+                    EmployeeMobile
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody class="tbody"></tbody>
+    </table>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="Id">Employee Id</label>
+                        <input type="text" class="form-control" id="EmployeeId" placeholder="Employee Id" disabled="disabled" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Name">Employee Name</label>
+                        <input type="text" class="form-control" id="EmployeeName" placeholder="Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Employee Email</label>
+                        <input type="text" class="form-control" id="EmployeeEmail" placeholder="Employee Email" />
+                    </div>
+                    <div class="form-group">
+                        <label for="salary">Employee Salary</label>
+                        <input type="text" class="form-control" id="EmployeeSalary" placeholder="Employee Salary" />
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile">Employee Mobile</label>
+                        <input type="text" class="form-control" id="EmployeeMobile" placeholder="Employee Mobile" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
+                <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/employee.js"></script>
