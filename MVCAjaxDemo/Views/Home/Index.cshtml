@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<MVCAjaxDemo.Models.Employee>
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -70,4 +71,19 @@
         </div>
     </div>
 </div>
+
+@if (Model != null)
+{
+    <div class="container" id="partialView">
+        @{
+            Html.RenderPartial("View");
+        }
+    </div>
+}
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $("#partialView").load('@Url.Content("/Home/Employee")');
+    });
+</script>
 <script src="~/Scripts/student.js"></script>
