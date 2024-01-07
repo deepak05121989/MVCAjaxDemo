@@ -2,8 +2,10 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,78 +37,102 @@ namespace MVCAjaxDemo.Controllers
             }
             return result;
         }
-           
 
-        // GET: Employee/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: Employee/Create
-        public ActionResult Create()
+        public JsonResult Add(Employee employee)
         {
-            return View();
-        }
-
-        // POST: Employee/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
+            HttpResponseMessage response = null;
+            JsonResult result = null;
+            using (HttpClient client = new HttpClient())
             {
-                // TODO: Add insert logic here
+                client.BaseAddress = new Uri("https://localhost:7297/api/Employee");
+                using (HttpRequestMessage httpRequest = new HttpRequestMessage())
+                {
+                    httpRequest.Method= HttpMethod.Post;
+                    httpRequest.Content=new StringContent(JsonConvert.SerializeObject(employee),Encoding.UTF8,"application/json");
+                    response = client.SendAsync(httpRequest).GetAwaiter().GetResult();
 
-                return RedirectToAction("Index");
+                }
+                    
             }
-            catch
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+                var employee1 = response.Content.ReadAsStringAsync().Result;
+                result = Json(employee1, JsonRequestBehavior.AllowGet);
             }
+
+
+            return result;
         }
-
-        // GET: Employee/Edit/5
-        public ActionResult Edit(int id)
+        public JsonResult GetbyID(int ID)
         {
-            return View();
+            HttpResponseMessage response = null;
+            JsonResult result = null;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7297/api/");
+
+                response = client.GetAsync($"Employee/{ID}").GetAwaiter().GetResult();
+            }
+            if (response.IsSuccessStatusCode)
+            {
+                var employee = JsonConvert.DeserializeObject<Employee>(response.Content.ReadAsStringAsync().Result);
+                result = Json(employee, JsonRequestBehavior.AllowGet);
+            }
+            return result;
         }
-
-        // POST: Employee/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public JsonResult Update(Employee emp)
         {
-            try
+            HttpResponseMessage response = null;
+            JsonResult result = null;
+            using (HttpClient client = new HttpClient())
             {
-                // TODO: Add update logic here
+                client.BaseAddress = new Uri($"https://localhost:7297/api/Employee");
+                using (HttpRequestMessage httpRequest = new HttpRequestMessage())
+                {
+                    httpRequest.Method = HttpMethod.Put;
+                    httpRequest.Content = new StringContent(JsonConvert.SerializeObject(emp), Encoding.UTF8, "application/json");
+                    response = client.SendAsync(httpRequest).GetAwaiter().GetResult();
 
-                return RedirectToAction("Index");
+                }
+
             }
-            catch
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+                var employee1 = response.Content.ReadAsStringAsync().Result;
+                result = Json(employee1, JsonRequestBehavior.AllowGet);
             }
+
+
+            return result;
+
+           // return Json(JsonRequestBehavior.AllowGet);
         }
-
-        // GET: Employee/Delete/5
-        public ActionResult Delete(int id)
+        public JsonResult Delete(int Id)
         {
-            return View();
-        }
 
-        // POST: Employee/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
+            HttpResponseMessage response = null;
+            JsonResult result = null;
+            using (HttpClient client = new HttpClient())
             {
-                // TODO: Add delete logic here
+                client.BaseAddress = new Uri($"https://localhost:7297/api/Employee/{Id}");
+                using (HttpRequestMessage httpRequest = new HttpRequestMessage())
+                {
+                    httpRequest.Method = HttpMethod.Delete;
+                    //httpRequest.Content = new StringContent(JsonConvert.SerializeObject(emp), Encoding.UTF8, "application/json");
+                    response = client.SendAsync(httpRequest).GetAwaiter().GetResult();
 
-                return RedirectToAction("Index");
+                }
+
             }
-            catch
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+                var employee1 = response.Content.ReadAsStringAsync().Result;
+                result = Json(employee1, JsonRequestBehavior.AllowGet);
             }
+
+
+            return result;
         }
     }
 }

@@ -88,17 +88,20 @@ function getbyID(Id) {
     return false;
 }
 function Update() {
+    debugger;
     var res = validate();
     if (res == false) {
         return false;
     }
     var empObj = {
-        Id: $('#EmployeeId').val(),
-        Name: $('#EmployeeName').val(),
-        Age: $('#EmployeeEmail').val(),
-        State: $('#EmployeeSalary').val(),
-        Country: $('#EmployeeMobile').val(),
+        EmployeeId: $('#EmployeeId').val(),
+        EmployeeName: $('#EmployeeName').val(),
+        EmployeeEmail: $('#EmployeeEmail').val(),
+        EmployeeSalary: $('#EmployeeSalary').val(),
+        EmployeeMobile: $('#EmployeeMobile').val(),
     };
+    //console.log(JSON.stringify(empObj));
+    //alert(JSON.stringify(empObj));
     $.ajax({
         url: "/Employee/Update",
         data: JSON.stringify(empObj),
